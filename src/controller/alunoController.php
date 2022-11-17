@@ -42,19 +42,15 @@ function listar (): void
 function novo (): void 
 {
     //INSERT INTO
-    if(false === empty($_POST)){
-        $nome = $_POST['nome'];
-        $quantidade = $_POST['quantidade'];
-
-        $select = "INSERT INTO tb_bebidas (nome, quantidade) VALUES '{$nome}', '{$quantidade}'";
-        $query = abrirConexao()->prepare($select);
-        $query->execute();
-
-    }
     include '../src/views/novo.phtml';
+    novoAluno();
 }
 
 function editar (): void
 {
+    $id = $_GET["id"];
+    $aluno = buscarUmAluno($id);
+    atualizarAluno();
     include '../src/views/editar.phtml';
+
 }
