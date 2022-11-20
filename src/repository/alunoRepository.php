@@ -6,7 +6,7 @@ function buscarAlunos(): iterable
 {
     $sql = 'SELECT * FROM tb_alunos';
 
-    $alunos = abrirConexao() -> query($sql);
+    $alunos = abrirConexao()->query($sql);
 
     return $alunos;
 }
@@ -15,51 +15,30 @@ function buscarUmAluno($id): iterable
 {
     $sql = "SELECT * FROM tb_alunos WHERE id ='{$id}'";
 
-    $alunos = abrirConexao() -> query($sql);
+    $aluno = abrirConexao()->query($sql);
 
-    return $alunos -> fetch(PDO::FETCH_ASSOC);
+    return $aluno->fetch(PDO::FETCH_ASSOC);
 }
 
-function novoAluno (): void 
+function novoAluno(string $nome, string $cidade, string $matricula): void
 {
-    //INSERT INTO
-    if(false === empty($_POST)){
-        $nome = $_POST['nome'];
-        $matricula = $_POST['matricula'];
-        $cidade = $_POST['cidade'];
-
-        $sql = "INSERT INTO tb_alunos (nome, matricula, cidade) VALUES (?, ?,?)";
-        $query = abrirConexao()->prepare($sql);
-        $query->execute([$nome, $matricula, $cidade]);
-
-        header ('location: /listar');
-
-
-    }
+    $sql = "INSERT INTO tb_alunos (nome, matricula, cidade) VALUES (?,?,?)";
+    $query = abrirConexao()->prepare($sql);
+    $query->execute([$nome, $matricula, $cidade]);
 }
 
-function atualizarAluno (): void 
+function atualizarAluno(string $nome, string $cidade, string $matricula, string $id): void
 {
-    //INSERT INTO
-    if(false === empty($_POST)){
-        $id = $_POST['id'];
-        $nome = $_POST['nome'];
-        $matricula = $_POST['matricula'];
-        $cidade = $_POST['cidade'];
 
-        $sql = "UPDATE tb_alunos SET nome =?, matricula=?, cidade=? WHERE id=?";
-        $query = abrirConexao()->prepare($sql);
-        $query->execute([$nome, $matricula, $cidade, $id]);
-
-        header ('location: /listar');
-
-
-    }
+    $sql = "UPDATE tb_alunos SET nome=?, matricula=?, cidade=? WHERE id=?";
+    $query = abrirConexao()->prepare($sql);
+    $query->execute([$nome, $matricula, $cidade,$id]);
 }
 
 function excluirAluno(string $id): void
 {
     $sql = "DELETE FROM tb_alunos WHERE id={$id}";
 
-    abrirConexao() -> query($sql);
+    abrirConexao()->query($sql);
 }
+
